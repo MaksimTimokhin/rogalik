@@ -1,5 +1,7 @@
 #include "rogue_game.h"
 
+#include <sstream>
+
 RogueGame::RogueGame(int dungeon_block_size, int dungeon_y_blocks, int dungeon_x_blocks)
     : kDungeonBlockSize(dungeon_block_size),
       kDungeonYBlocks(dungeon_y_blocks),
@@ -15,23 +17,31 @@ void RogueGame::UpdateState(int key) {
     switch (key) {
         case 'H':
         case 'h':
-        case KEY_LEFT:
             MoveLeft();
             break;
         case 'J':
         case 'j':
-        case KEY_DOWN:
             MoveDown();
             break;
         case 'K':
         case 'k':
-        case KEY_UP:
             MoveUp();
             break;
         case 'L':
         case 'l':
-        case KEY_RIGHT:
             MoveRight();
+            break;
+        case KEY_LEFT:
+            camera_.MoveLeft();
+            break;
+        case KEY_DOWN:
+            camera_.MoveDown();
+            break;
+        case KEY_UP:
+            camera_.MoveUp();
+            break;
+        case KEY_RIGHT:
+            camera_.MoveRight();
             break;
     }
 };
@@ -122,4 +132,11 @@ void RogueGame::MoveDown() {
     if (MoveElseInteract(y_pos, x_pos) && IsCellOnEdgeOfScreen(y_pos, x_pos)) {
         camera_.MoveDown();
     }
+}
+
+void RogueGame::HandleResize() {
+    AbstractApplication::HandleResize();
+    camera_.SetYLimit(dungeon_->GetHeight() - screen_height_ + 1);
+    camera_.SetXLimit(dungeon_->GetWidth() - (screen_width_ - 1) / 2);
+    DrawFrame();
 }

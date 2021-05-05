@@ -17,6 +17,8 @@ protected:
     virtual void UpdateState(int key) = 0;
     virtual void DrawFrame() = 0;
 
+    virtual void HandleResize();
+
 protected:
     void ClearScreen();
     void ClearLine(WINDOW *line);

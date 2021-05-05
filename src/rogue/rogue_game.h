@@ -14,6 +14,8 @@ protected:
     void UpdateState(int key) override;
     void DrawFrame() override;
 
+    void HandleResize() override;
+
 private:
     void DrawCurrentView();
     void DrawHero();
