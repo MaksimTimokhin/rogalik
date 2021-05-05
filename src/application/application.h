@@ -21,7 +21,6 @@ protected:
     void ClearScreen();
     void ClearLine(WINDOW *line);
     void ClearCell(int y, int x);
-    void SetCell(int y, int x, int ch);
     void SetCell(int y, int x, wchar_t character);
     void WriteMessage(WINDOW *line, const std::string &message);
 

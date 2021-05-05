@@ -102,11 +102,6 @@ void AbstractApplication::ClearCell(int y, int x) {
     CheckError(mvwaddch(screen_, y + 1, x + 1, ' '), "mvwaddch");
 }
 
-void AbstractApplication::SetCell(int y, int x, int ch) {
-    mvwdelch(screen_, y + 1, x + 1);
-    mvwaddch(screen_, y + 1, x + 1, ch);
-}
-
 void AbstractApplication::SetCell(int y, int x, wchar_t character) {
     cchar_t curses_char;
     setcchar(&curses_char, &character, {}, 0, nullptr);
