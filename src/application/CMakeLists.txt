@@ -1,0 +1,1 @@
+target_sources(rogue PRIVATE application.cpp)
