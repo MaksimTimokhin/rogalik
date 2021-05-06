@@ -125,7 +125,7 @@ void AbstractApplication::ClearCell(int y, int x) {
 }
 
 void AbstractApplication::SetCell(int y, int x, wchar_t character) {
-    if (x >= 0 && y >= 0 && x < screen_width_ && y < screen_height_) {
+    if (x >= 0 && y >= 0 && x + 1 < screen_width_ && y < screen_height_) {
         cchar_t curses_char;
         CheckError(setcchar(&curses_char, &character, {}, 0, nullptr), "setchar");
         CheckError(mvwadd_wch(screen_, y + 1, x + 1, &curses_char), "mvwadd_wch");

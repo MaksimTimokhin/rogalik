@@ -22,8 +22,8 @@ void Camera::SetXLimit(int x_limit) {
 }
 
 void Camera::SetPosition(int y, int x) {
-    y_pos_ = std::min(y, y_limit_);
-    x_pos_ = std::min(x, x_limit_);
+    y_pos_ = std::max(0, std::min(y, y_limit_));
+    x_pos_ = std::max(0, std::min(x, x_limit_));
 }
 
 void Camera::MoveLeft() {

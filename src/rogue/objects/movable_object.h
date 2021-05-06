@@ -6,6 +6,8 @@ class AbstractMovableObject : public IObject {
 public:
     AbstractMovableObject(int y_pos, int x_pos);
 
+    bool IsMemorable() const override final;
+
     int GetYPos() const;
     int GetXPos() const;
 

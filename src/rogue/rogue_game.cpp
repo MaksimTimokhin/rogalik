@@ -10,6 +10,7 @@ RogueGame::RogueGame(int dungeon_block_size, int dungeon_y_blocks, int dungeon_x
 }
 
 void RogueGame::Init() {
+    hero_vision_.CalculateVisibilityMap(hero_.GetYPos(), hero_.GetXPos());
     DrawFrame();
 }
 
@@ -18,18 +19,22 @@ void RogueGame::UpdateState(int key) {
         case 'H':
         case 'h':
             MoveLeft();
+            CenterCamera();
             break;
         case 'J':
         case 'j':
             MoveDown();
+            CenterCamera();
             break;
         case 'K':
         case 'k':
             MoveUp();
+            CenterCamera();
             break;
         case 'L':
         case 'l':
             MoveRight();
+            CenterCamera();
             break;
         case KEY_LEFT:
             camera_.MoveLeft();
@@ -44,6 +49,7 @@ void RogueGame::UpdateState(int key) {
             camera_.MoveRight();
             break;
     }
+    hero_vision_.CalculateVisibilityMap(hero_.GetYPos(), hero_.GetXPos());
 };
 
 void RogueGame::DrawFrame() {
@@ -57,7 +63,15 @@ void RogueGame::DrawCurrentView() {
         for (int x = 0; x < screen_width_ / 2; ++x) {
             int x_pos = camera_.GetXPos() + x;
             int y_pos = camera_.GetYPos() + y;
-            DrawObject(y_pos, x_pos);
+            if (!hero_vision_.IsCellVisible(y_pos, x_pos) && !hero_.Remembers(y_pos, x_pos)) {
+                DrawFog(y_pos, x_pos);
+            } else {
+                DrawObject(y_pos, x_pos);
+                if (auto object = dungeon_->GetObject(y_pos, x_pos);
+                    object && object->IsMemorable()) {
+                    hero_.Memorize(y_pos, x_pos);
+                }
+            }
         }
     }
 }
@@ -73,6 +87,11 @@ void RogueGame::DrawObject(int y_pos, int x_pos) {
     }
 }
 
+void RogueGame::DrawFog(int y_pos, int x_pos) {
+    SetCell(GetObjectScreenYPos(y_pos), GetObjectScreenXPos(x_pos), L'░');
+    SetCell(GetObjectScreenYPos(y_pos), GetObjectScreenXPos(x_pos) + 1, L'░');
+}
+
 int RogueGame::GetObjectScreenYPos(int y_pos) const {
     return y_pos - camera_.GetYPos();
 }
@@ -82,7 +101,7 @@ int RogueGame::GetObjectScreenXPos(int x_pos) const {
 }
 
 bool RogueGame::IsCellOnEdgeOfScreen(int y_pos, int x_pos) const {
-    if (y_pos == camera_.GetYPos() || x_pos == camera_.GetXPos()) {
+    if (y_pos <= camera_.GetYPos() || x_pos <= camera_.GetXPos()) {
         return true;
     }
     if (GetObjectScreenYPos(y_pos) >= screen_height_ - 1 ||
@@ -134,9 +153,17 @@ void RogueGame::MoveDown() {
     }
 }
 
+void RogueGame::CenterCamera() {
+    int hero_y_pos = hero_.GetYPos();
+    int hero_x_pos = hero_.GetXPos();
+    if (IsCellOnEdgeOfScreen(hero_y_pos, hero_x_pos)) {
+        camera_.SetPosition(hero_y_pos - screen_height_ / 2, hero_x_pos - screen_width_ / 4);
+    }
+}
+
 void RogueGame::HandleResize() {
     AbstractApplication::HandleResize();
-    camera_.SetYLimit(dungeon_->GetHeight() - screen_height_ + 1);
+    camera_.SetYLimit(dungeon_->GetHeight() - screen_height_);
     camera_.SetXLimit(dungeon_->GetWidth() - (screen_width_ - 1) / 2);
     DrawFrame();
 }

@@ -28,3 +28,10 @@ IInteractiveObject *Dungeon::GetObject(int y_pos, int x_pos) {
     }
     return dungeon_[y_pos][x_pos].get();
 }
+
+const IInteractiveObject *Dungeon::GetObject(int y_pos, int x_pos) const {
+    if (y_pos >= GetHeight() || x_pos >= GetWidth()) {
+        return nullptr;
+    }
+    return dungeon_[y_pos][x_pos].get();
+}

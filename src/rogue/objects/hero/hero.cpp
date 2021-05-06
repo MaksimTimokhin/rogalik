@@ -1,6 +1,8 @@
 #include "hero.h"
 
-Hero::Hero(int y_pos, int x_pos) : AbstractMovableObject(y_pos, x_pos) {
+Hero::Hero(int dungeon_height, int dungeon_width, int y_pos, int x_pos)
+    : memory_(dungeon_height, std::vector<bool>(dungeon_width)),
+      AbstractMovableObject(y_pos, x_pos) {
 }
 
 wchar_t Hero::Draw() const {
@@ -26,4 +28,16 @@ wchar_t Hero::Draw() const {
         return L'😰';
     }
     return L'😵';
+}
+
+void Hero::Memorize(int y_pos, int x_pos) {
+    memory_[y_pos][x_pos] = true;
+}
+
+void Hero::Forget(int y_pos, int x_pos) {
+    memory_[y_pos][x_pos] = false;
+}
+
+bool Hero::Remembers(int y_pos, int x_pos) const {
+    return memory_[y_pos][x_pos];
 }

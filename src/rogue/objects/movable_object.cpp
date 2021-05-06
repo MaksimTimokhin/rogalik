@@ -3,6 +3,10 @@
 AbstractMovableObject::AbstractMovableObject(int y_pos, int x_pos) : y_pos_(y_pos), x_pos_(x_pos) {
 }
 
+bool AbstractMovableObject::IsMemorable() const {
+    return false;
+}
+
 int AbstractMovableObject::GetYPos() const {
     return y_pos_;
 }

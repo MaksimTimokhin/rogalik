@@ -7,5 +7,6 @@
 class IInteractiveObject : public IObject {
 public:
     virtual void Interact(Hero &hero) = 0;
+    virtual bool IsTransparent() const = 0;
     virtual ~IInteractiveObject() = default;
 };
