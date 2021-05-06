@@ -3,8 +3,7 @@
 #include <sstream>
 #include <stdexcept>
 
-AbstractApplication::AbstractApplication(int screen_width, int screen_height)
-    : screen_width_(screen_width), screen_height_(screen_height) {
+AbstractApplication::AbstractApplication() {
     Init();
 }
 
@@ -53,12 +52,8 @@ void AbstractApplication::InitScreen() {
         throw std::runtime_error("terminal too small");
     }
 
-    if (screen_width_ == 0) {
-        screen_width_ = COLS - 4;
-    }
-    if (screen_height_ == 0) {
-        screen_height_ = LINES - 4;
-    }
+    screen_width_ = COLS - 4;
+    screen_height_ = LINES - 4;
 
     if (screen_height_ + 2 > LINES || screen_width_ + 2 > COLS) {
         std::stringstream error;

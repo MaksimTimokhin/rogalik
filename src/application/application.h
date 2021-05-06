@@ -6,7 +6,7 @@
 
 class AbstractApplication {
 public:
-    AbstractApplication(int screen_width = 0, int screen_height = 0);
+    AbstractApplication();
     virtual ~AbstractApplication();
 
     void Run();
