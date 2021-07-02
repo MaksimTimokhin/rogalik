@@ -57,6 +57,9 @@ int AbstractCreature::GetDamaged(int damage) {
     if (missed) {
         return 0;
     }
+    double effective_armor = kArmorFactor * armor_;
+    double damage_multiplier = 1 - effective_armor / (1 + std::abs(effective_armor));
+    damage *= damage_multiplier;
     health_ -= damage;
     return damage;
 }

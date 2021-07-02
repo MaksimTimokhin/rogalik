@@ -42,6 +42,6 @@ protected:
     static std::mt19937 kRandomGen;
 
 private:
-    constexpr static double kArmorFactor = 0.02;
+    constexpr static double kArmorFactor = 0.06;
     Dungeon *dungeon_;
 };
