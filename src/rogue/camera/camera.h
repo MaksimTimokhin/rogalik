@@ -1,5 +1,7 @@
 #pragma once
 
+#include <rogue/direction/direction.h>
+
 #include <cstddef>
 
 class Camera {
@@ -14,10 +16,7 @@ public:
 
     void SetPosition(int y, int x);
 
-    void MoveLeft();
-    void MoveRight();
-    void MoveUp();
-    void MoveDown();
+    void Move(const Direction &direction);
 
 private:
     int y_pos_ = 0;

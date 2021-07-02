@@ -2,7 +2,8 @@
 
 #include <application/application.h>
 #include <rogue/camera/camera.h>
-#include <rogue/maze/maze_generator.h>
+#include <rogue/direction/direction.h>
+#include <rogue/dungeon/maze/maze_generator.h>
 #include <rogue/objects/hero/hero.h>
 #include <rogue/vision/vision.h>
 
@@ -28,12 +29,8 @@ private:
     int GetObjectScreenXPos(int x_pos) const;
 
     bool IsCellOnEdgeOfScreen(int y_pos, int x_pos) const;
-    bool MoveElseInteract(int y_pos, int x_pos);
 
-    void MoveLeft();
-    void MoveRight();
-    void MoveUp();
-    void MoveDown();
+    void Move(const Direction &direction);
 
     void CenterCamera();
 
@@ -44,8 +41,8 @@ private:
 
     std::unique_ptr<Dungeon> dungeon_ =
         MazeGenerator::GenerateMaze(kDungeonBlockSize, kDungeonYBlocks, kDungeonXBlocks);
-    Hero hero_{dungeon_->GetHeight(), dungeon_->GetWidth(), 1, 1};
+    Hero *hero_;
     Vision hero_vision_{*dungeon_};
     Camera camera_{dungeon_->GetHeight() - screen_height_,
-                   dungeon_->GetWidth() - (screen_width_ - 1) / 2};
+                   dungeon_->GetWidth() - screen_width_ / 2};
 };

@@ -18,18 +18,25 @@ int Dungeon::GetWidth() const {
     return dungeon_[0].size();
 }
 
-void Dungeon::SpawnObject(int y_pos, int x_pos, std::unique_ptr<IInteractiveObject> &&object) {
+void Dungeon::SpawnObject(int y_pos, int x_pos, std::unique_ptr<IObject> &&object) {
     dungeon_[y_pos][x_pos] = std::move(object);
 }
 
-IInteractiveObject *Dungeon::GetObject(int y_pos, int x_pos) {
+std::unique_ptr<IObject> Dungeon::RemoveObject(int y_pos, int x_pos) {
+    if (y_pos < 0 || y_pos >= GetHeight() || x_pos < 0 || x_pos >= GetWidth()) {
+        return {};
+    }
+    return std::move(dungeon_[y_pos][x_pos]);
+}
+
+IObject *Dungeon::GetObject(int y_pos, int x_pos) {
     if (y_pos >= GetHeight() || x_pos >= GetWidth()) {
         return nullptr;
     }
     return dungeon_[y_pos][x_pos].get();
 }
 
-const IInteractiveObject *Dungeon::GetObject(int y_pos, int x_pos) const {
+const IObject *Dungeon::GetObject(int y_pos, int x_pos) const {
     if (y_pos >= GetHeight() || x_pos >= GetWidth()) {
         return nullptr;
     }

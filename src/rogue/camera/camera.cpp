@@ -26,26 +26,6 @@ void Camera::SetPosition(int y, int x) {
     x_pos_ = std::max(0, std::min(x, x_limit_));
 }
 
-void Camera::MoveLeft() {
-    if (x_pos_ > 0) {
-        --x_pos_;
-    }
-}
-
-void Camera::MoveRight() {
-    if (x_pos_ < x_limit_) {
-        ++x_pos_;
-    }
-}
-
-void Camera::MoveDown() {
-    if (y_pos_ < y_limit_) {
-        ++y_pos_;
-    }
-}
-
-void Camera::MoveUp() {
-    if (y_pos_ > 0) {
-        --y_pos_;
-    }
+void Camera::Move(const Direction &direction) {
+    SetPosition(y_pos_ + direction.GetDY(), x_pos_ + direction.GetDX());
 }

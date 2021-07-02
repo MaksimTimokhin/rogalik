@@ -1,6 +1,6 @@
 add_subdirectory(camera)
+add_subdirectory(direction)
 add_subdirectory(dungeon)
-add_subdirectory(maze)
 add_subdirectory(objects)
 add_subdirectory(vision)
 

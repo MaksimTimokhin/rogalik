@@ -21,7 +21,8 @@ private:
 
     int hero_y_;
     int hero_x_;
-    std::vector<std::vector<bool>> map_{dungeon_.GetHeight(),
-                                        std::vector<bool>(dungeon_.GetWidth())};
+    std::vector<std::vector<bool>> map_{
+        static_cast<size_t>(dungeon_.GetHeight()),
+        std::vector<bool>(static_cast<size_t>(dungeon_.GetWidth()))};
     ConeUnion invisibile_cones_;
 };
